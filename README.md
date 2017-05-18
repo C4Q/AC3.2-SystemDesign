@@ -49,9 +49,7 @@ Start with a diagram and refine and optimize it. Flesh it out with text based ca
 
 Get familiar with common approaches. Don’t be afraid of being unoriginal. It’s how you apply known patterns and perhaps make small optimizations and customizations that will show you understand both the pattern and the specifics of the problem.
 
-[Basic Server Diagram]
-
-[Basic Schema]
+![Diagrams](https://www.hiredintech.com/lecture_materials/twitter_problem_system_design.png)
 
 When we look at SQL we’ll look at how relational databases work and specifically for this problem how they communicate the modeling of a problem by the fields and relationships they have and how they anticipate queries and usage patterns by the indexes they define. It’s a powerful shorthand for expressing ideas even if a SQL database won’t be employed.
 
