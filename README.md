@@ -1,5 +1,12 @@
 # System Design
 
+## Resources
+> This lesson lifted heavily from https://www.hiredintech.com/classrooms/system-design/lesson/72 and its links. 
+> A deep dive into these would yield rewards both in interviews and in practice.
+* https://www.hiredintech.com/classrooms/system-design/lesson/72
+* http://highscalability.com/start-here/ 
+
+
 ## Introduction 
 The basic system design interview problem is an open ended conversational exercise where the interviewee is given a complex system to design based on a simple and/or vague prompt. Often this comes in the form of a cloning a known service, e.g.: Describe how you would build Instagram, or Twitter. While the nature of it is more open ended than an algorithm problem, your systematic approach to the problem is what is being judged.
 
@@ -8,8 +15,7 @@ Generally speaking it’s a backend-ish type problem and therefore as a candidat
 ### Why System Design?
 
 Apart from the two flavors of interview question mentioned above you might actually want to design a system,
-either as a member of a team or on a personal project. http://highscalability.com/start-here/
-
+either as a member of a team or on a personal project.
 
 ## Client-Server Architecture
 
@@ -40,9 +46,6 @@ Almost always the HTTP protocol. By API endpoint is how we've connected our apps
 </details>
 
 
-> This lesson lifted heavily from https://www.hiredintech.com/classrooms/system-design/lesson/72 and its links. 
-> A deep dive into these would yield rewards both in interviews and in practice.
-
 ## Draw diagrams whenever possible
 
 Start with a diagram and refine and optimize it. Flesh it out with text based calculations and data models.
@@ -53,13 +56,10 @@ Get familiar with common approaches. Don’t be afraid of being unoriginal. It�
 
 When we look at SQL we’ll look at how relational databases work and specifically for this problem how they communicate the modeling of a problem by the fields and relationships they have and how they anticipate queries and usage patterns by the indexes they define. It’s a powerful shorthand for expressing ideas even if a SQL database won’t be employed.
 
-This will be more in the form of an app
-
-Example
-Favorites in comic chameleon
-
 The very first thing you should do with any system design question is to clarify the  
 constraints and identify what use cases the system needs to satisfy.
+
+Don't fall prey to early optimization.
 
 ## Use Cases
 
@@ -71,7 +71,14 @@ Hired in Tech article mentions a Twitter clone where there is an expected averag
 but there are known spikes for popular content. So, first look at the common cases, propose a
 design and test it against edge cases and refine.
 
+
+## Everything is a tradeoff
+
+This is one of the most fundamental concepts in system design.
+> Don't skip steps, don't make assumptions, start broad and go deep when asked.
+
 ## Steps
+
 1. Constraints and use cases
 2. Abstract Design
 3. Understanding bottlenecks
@@ -82,55 +89,51 @@ Bottlenecks and single points of failure are important topics in CS because they
     3. Think about the bottlenecks these components face when the system scales.
     4. Address these bottlenecks by using the fundamentals principles of scalable system design.
 
-Web hosting solutions like AWS, Firebase, Fieldbook is a good example of how an iOS developer might still need to know how to choose or at least use that system.
-
-### Vertical Scaling
-More CPU, more disk, there are “real world constraints”
-Multiple cores and parallelism 
-
-### Horizontal Scaling
-Trade price for number requires rearchitecting
-
-What’s expensive?
-Writing to disk
-The Network
-And what writes to disk and goes to network?
-Disks vs SSD
-
-### Load balancing
-### Database replication
-### Database partitioning
-
-
-## Everything is a tradeoff
-
-This is one of the most fundamental concepts in system design.
-
-Don't skip steps, don't make assumptions, start broad and go deep when asked.
-
 You first build a high-level architecture by identifying the constraints and use cases, sketching up the major components and the relationships between them, and thinking about the system's bottlenecks. You then apply the right scalability patterns that will take care of these bottlenecks in the context of the system's constraints.
 
-Don’t fall prey to early optimization
+### Vertical Scaling
 
-## Problems
-1. Image store has upload limits imposed upon it 
-2. A service is rate limited
+* Add More CPU (faster CPU or more cores)
+* Add more disk
+* there are “real world constraints”
 
+### Horizontal Scaling
 
-Progress from 
-* one machine 
-* two machines
-* n-frontends + load balancer
-* proxies in between load balancer and front ends
+* Trade one big machine (vertical scale) price for many 
+* requires rearchitecting
+
+What’s expensive?
+  * CPU
+  * Writing to disk
+  * The network (server-to server: external services, e.g. oauth, or database)
+  * And what operations write to disk and goes to network?
+  * Disks vs SSD
+
+### Load balancing
+
+The means by which horizontal scaling is accomplished, on the network level.
+
+### Database replication
+
+* Databases can be replicated for "hot failover"
+* Or Master - Slave if read / write is exploitable
+
+### Database partitioning
+
+How do we distribute the "single source of truth"?
+
+* partitioning/sharding
 
 ## Exercise: make IDs across multiple back ends
 First discuss the issues.
+
 * uniqueness
 * speed 
 * reliability
 * sortability
 * size
 
+Instagram's ID generation approach
 https://engineering.instagram.com/sharding-ids-at-instagram-1cf5a71e5a5c
 
 ## Calculations
@@ -141,18 +144,7 @@ social graph
 nodes - users
 edges - follows
 
-consider numbers
-
-Comic Chameleon
-favorites (combinatorial) 
-
-Handling user requests
-numerically break down the avg. req. per second
-
-load balancer
-forward proxy
-web server
-database
+## API
 
 APIs are familiar to us so we might be asked to design one
 
@@ -178,6 +170,11 @@ The “separation of concerns” is a popular phrase worth getting familiar with
 
 https://softwareengineering.stackexchange.com/questions/205681/why-is-inversion-of-control-named-that-way
 
+## Exercises
+
+1. Design an image upload system where the image store has disk and bandwidth limits imposed upon it 
+2. Design a news reader app where the service is rate limited
+
 ## Case Study - Comic Chameleon
 
 ### Back end
@@ -193,3 +190,6 @@ https://softwareengineering.stackexchange.com/questions/205681/why-is-inversion-
 * UI: Storyboards and nibs
 * Web page for News and the Timeline (hybrid)
 
+# Problem
+
+> Custom Favorites in combination
