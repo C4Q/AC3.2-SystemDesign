@@ -1,39 +1,47 @@
 # System Design
 
+## Introduction 
 The basic system design interview problem is an open ended conversational exercise where the interviewee is given a complex system to design based on a simple and/or vague prompt. Often this comes in the form of a cloning a known service, e.g.: Describe how you would build Instagram, or Twitter. While the nature of it is more open ended than an algorithm problem, your systematic approach to the problem is what is being judged.
 
 Generally speaking it’s a backend-ish type problem and therefore as a candidate for an entry-level iOS position you might not be asked a system design question. However, you might. Or, if this type of question is posed of you it would focus on the structure of the app alone, or only as far as the app can “see” of the rest of the system, namely the APIs it would need to function.
 
-## Client/Server Architecture
+### Why System Design?
+
+Apart from the two flavors of interview question mentioned above you might actually want to design a system,
+either as a member of a team or on a personal project. http://highscalability.com/start-here/
+
+
+## Client-Server Architecture
+
+Since the majority of systems are partially or wholly client-server based, let's be sure we
+define it.
 
 <details>
   <summary>What is client/server architecture?</summary>
-It's a pattern used to share work between a centralized and usually more powerful system 
-and a number of 
+It's a pattern used to share data and processing between a centralized and usually more powerful system 
+and a number of other devices.
 </details>
 
 <details>
 <summary>Who is the client?</summary>
-iPhone
+Computers, phones: in short the app.
 </details>
 
 <details>
 <summary>Who is the server?</summary>
-Server(s) on the Internet.
+The server is the centralized resource on the Internet. In the literal sense it is a computer
+but more broadly it's any arrangement of computers, routers, switches that the client 
+communicates with.
 </details>
 
 <details>
 <summary>How do they communicate?</summary>
-Almost always the HTTP protocol 
+Almost always the HTTP protocol. By API endpoint is how we've connected our apps to servers.
 </details>
 
-Draw the high level architecture
 
-Justify your ideas
-
-"system design questions will also most likely be weakly defined.” 
-
-The very first thing you should do with any system design question is to clarify the system's constraints and to identify what use cases the system needs to satisfy.
+> This lesson lifted heavily from https://www.hiredintech.com/classrooms/system-design/lesson/72 and its links. 
+> A deep dive into these would yield rewards both in interviews and in practice.
 
 ## Draw diagrams whenever possible
 
@@ -51,6 +59,19 @@ This will be more in the form of an app
 
 Example
 Favorites in comic chameleon
+
+The very first thing you should do with any system design question is to clarify the  
+constraints and identify what use cases the system needs to satisfy.
+
+## Use Cases
+
+There is no general answer for this. This is where we define and clarify the functionality of
+the app in terms of the individual interactions with it (use cases). Similar to algorithm
+design it's wise to start with the 90% case(s) and then consider the edge cases. At the same
+time you don't want to dive too deep into a design until you do look at those edge cases. The 
+Hired in Tech article mentions a Twitter clone where there is an expected average usage
+but there are known spikes for popular content. So, first look at the common cases, propose a
+design and test it against edge cases and refine.
 
 ## Steps
 1. Constraints and use cases
@@ -77,6 +98,11 @@ Writing to disk
 The Network
 And what writes to disk and goes to network?
 Disks vs SSD
+
+### Load balancing
+### Database replication
+### Database partitioning
+
 
 ## Everything is a tradeoff
 
@@ -109,7 +135,7 @@ First discuss the issues.
 
 https://engineering.instagram.com/sharding-ids-at-instagram-1cf5a71e5a5c
 
-##b Calculations
+## Calculations
 
 Ask and make rough estimates of the scale of the system. How many users? How many operations per user? Which operations are read-only and which are writes? Does data need to be updated? A Facebook comment it can be edited but a Tweet cannot. No right or wrong, just decisions to be made.
 
@@ -137,15 +163,13 @@ POST /api/action - write
 
 ## Front End/Client/iOS Architecture
 
-Dependency Management (Cocoapods)
+* Dependency Management (Cocoapods)
+* Storage
+* Networking
+* Interface
+* MVC
+* MVVM
 
-Storage
-
-Networking
-
-Interface
-
-MVVM
 The view controller doesn’t need to know about web service calls, Core Data, model objects, etc.
 http://www.sprynthesis.com/2014/12/06/reactivecocoa-mvvm-introduction/
 
@@ -156,4 +180,18 @@ The “separation of concerns” is a popular phrase worth getting familiar with
 
 https://softwareengineering.stackexchange.com/questions/205681/why-is-inversion-of-control-named-that-way
 
-This lesson lifted heavily from https://www.hiredintech.com/classrooms/system-design/lesson/72 and its links. A deep dive into these would yield rewards both in interviews and in practice.
+## Case Study - Comic Chameleon
+
+### Back end
+* AWS
+* EC2 (Linux server)
+* Cloudfront (cache)
+* RDS (dual zone)
+
+### Front end: iOS App
+* Core Data for episode info and read history
+* NSUserDefaults for onboarding flag
+* MVC
+* UI: Storyboards and nibs
+* Web page for News and the Timeline (hybrid)
+
